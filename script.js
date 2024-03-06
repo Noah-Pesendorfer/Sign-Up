@@ -31,6 +31,7 @@ document.getElementById('signUp').addEventListener('click', function(event) {
                 set(ref(db, 'users/' + user.uid), {
                     name: FullNameInput.value,
                     email: EmailInput.value,
+                    registrationDate: new Date()
                 });
                 console.log(user);
 
