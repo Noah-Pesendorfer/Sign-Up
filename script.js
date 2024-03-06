@@ -34,6 +34,8 @@ document.getElementById('signUp').addEventListener('click', function(event) {
                 });
                 console.log(user);
 
+                window.location.href = "https://noah-pesendorfer.github.io/Scrumflow/";
+
 
             })
             .catch((error) => {
