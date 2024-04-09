@@ -30,8 +30,6 @@ document.getElementById('signUp').addEventListener('click', function(event) {
                     email: EmailInput.value,
                 });
                 console.log(user);
-
-                window.location.href = "https://noah-pesendorfer.github.io/Scrumflow/";
             })
             .catch((error) => {
                 const errorMessage = error.message;
