@@ -43,7 +43,8 @@ let RegisterUser = evt => {
         .then((userCredential)=>{
             user = userCredential.user;
             addUserToFirestore(user);
-            window.location.href = "https://noah-pesendorfer.github.io/Scrumflow-Projects/";
+
+            console.log("Created user: ", user)
 
             console.log(FullNameInput.value, "; ", EmailInput.value, ";")
 
