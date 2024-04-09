@@ -34,19 +34,15 @@ let EmailInput = document.getElementById('email');
 let PasswordInput = document.getElementById('password');
 let confirmPassword = document.getElementById('confirmPassword');
 let FullNameInput = document.getElementById('name');
+
+let user;
 let RegisterUser = evt => {
     evt.preventDefault();       // Verhindern des Standardverhaltens des Formulars
 
     createUserWithEmailAndPassword(auth, EmailInput.value, PasswordInput.value)      // Erstellen eines Benutzers mit E-Mail und Passwort über das Firebase-Authentifizierungsmodul
         .then((userCredential)=>{
-            const user = userCredential.user;
-            const userRef = collection(db, 'users');
-            addDoc(userRef, {
-                name: FullNameInput.value,
-                email: EmailInput.value,
-                registrationDate: new Date()
-            });
-
+            user = userCredential.user;
+            addUserToFirestore(user);
             window.location.href = "https://noah-pesendorfer.github.io/Scrumflow-Projects/";
         })
         .catch((error) => {
@@ -61,6 +57,16 @@ let RegisterUser = evt => {
                 alert(errorMessage);
             }
         });
+}
+
+function addUserToFirestore(user) {
+    const userRef = collection(db, 'users');
+    console.log(FullNameInput.value, "; ", EmailInput.value, ";")
+    addDoc(userRef, {
+        name: FullNameInput.value,
+        email: EmailInput.value,
+        registrationDate: new Date()
+    });
 }
 
 SignUpForm.addEventListener('submit', RegisterUser);
