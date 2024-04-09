@@ -36,8 +36,7 @@ let confirmPassword = document.getElementById('confirmPassword');
 let FullNameInput = document.getElementById('name');
 
 let user;
-let RegisterUser = evt => {
-    evt.preventDefault();       // Verhindern des Standardverhaltens des Formulars
+function registerUser() {
 
     alert("Email: ", EmailInput.value);
 
@@ -74,4 +73,4 @@ function addUserToFirestore(user) {
     })
 }
 
-SignUpForm.addEventListener('submit', RegisterUser);
+SignUpForm.addEventListener('click', registerUser());
