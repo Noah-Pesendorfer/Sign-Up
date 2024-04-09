@@ -28,35 +28,38 @@ const analytics = getAnalytics(app);
 const db = getDatabase();
 const auth = getAuth(app);
 
+let SignUpForm = document.getElementById('signUp');          // Selektion des HTML-Elements mit der Klasse 'SignUpForm'
+
 let EmailInput = document.getElementById('email');
 let PasswordInput = document.getElementById('password');
 let confirmPassword = document.getElementById('confirmPassword');
 let FullNameInput = document.getElementById('name');
-document.getElementById('signUp').addEventListener('click', function(event) {
-    event.preventDefault();
-    if(PasswordInput.value === confirmPassword.value) {
-        createUserWithEmailAndPassword(auth, EmailInput.value, PasswordInput.value)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                const userRef = collection(db, "users")
-                set(ref(db, 'users/' + user.uid), {
-                    name: FullNameInput.value,
-                    email: EmailInput.value,
-                    registrationDate: new Date()
-                });
-                console.log(user);
+let RegisterUser = evt => {
+    evt.preventDefault();       // Verhindern des Standardverhaltens des Formulars
 
-                window.location.href = "https://noah-pesendorfer.github.io/Scrumflow-Home/";
+    createUserWithEmailAndPassword(auth, EmailInput.value, PasswordInput.value)      // Erstellen eines Benutzers mit E-Mail und Passwort über das Firebase-Authentifizierungsmodul
+        .then((userCredential)=>{
+            const user = userCredential.user;
+            set(ref(db, 'users/' + user.uid), {
+                name: FullNameInput.value,
+                email: EmailInput.value,
+                registrationDate: new Date()
+            });
 
+            window.location.href = "https://noah-pesendorfer.github.io/Scrumflow-Home/";
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
 
-            })
-            .catch((error) => {
-                const errorMessage = error.message;
+            if (errorCode === "auth/email-already-in-use") {            // Wenn der User eine Email eingibt, die bereits in Verwendung ist, kommt die entsprechende Alert
+                alert("This email address is already registered. Please use a different one.");
+            } else if (errorCode === "auth/weak-password") {            // Wenn der User ein Passwort eingibt, welches unter 6 characters ist, kommt die entsprechende Alert
+                alert("Password should be at least 6 characters long. Please choose a stronger password.");
+            } else {
+                alert(errorMessage);
+            }
+        });
+}
 
-                console.log(errorMessage);
-            })
-    }
-    else{
-        alert("Password != confirm");
-    }
-}) ;
+SignUpForm.addEventListener('submit', RegisterUser);
