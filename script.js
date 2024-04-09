@@ -24,7 +24,8 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const analytics = getAnalytics(app);
+const db = getDatabase();
 const auth = getAuth(app);
 
 let EmailInput = document.getElementById('email');
@@ -38,11 +39,11 @@ document.getElementById('signUp').addEventListener('click', function(event) {
             .then((userCredential) => {
                 const user = userCredential.user;
                 const userRef = collection(db, "users")
-                addDoc(userRef, {
+                set(ref(db, 'users/' + user.uid), {
                     name: FullNameInput.value,
                     email: EmailInput.value,
                     registrationDate: new Date()
-                })
+                });
                 console.log(user);
 
                 window.location.href = "https://noah-pesendorfer.github.io/Scrumflow-Home/";
@@ -52,10 +53,10 @@ document.getElementById('signUp').addEventListener('click', function(event) {
             .catch((error) => {
                 const errorMessage = error.message;
 
-                alert(errorMessage);
+                console.log(errorMessage);
             })
     }
     else{
-        alert("Password and Confirm Password is not equal");
+        alert("Password != confirm");
     }
 }) ;
