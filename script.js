@@ -73,4 +73,4 @@ function addUserToFirestore(user) {
     })
 }
 
-SignUpForm.addEventListener('submit', registerUser());
+SignUpForm.addEventListener('submit', () => registerUser());
