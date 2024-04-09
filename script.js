@@ -44,6 +44,9 @@ let RegisterUser = evt => {
             user = userCredential.user;
             addUserToFirestore(user);
             window.location.href = "https://noah-pesendorfer.github.io/Scrumflow-Projects/";
+
+            console.log(FullNameInput.value, "; ", EmailInput.value, ";")
+
         })
         .catch((error) => {
             const errorCode = error.code;
@@ -61,12 +64,11 @@ let RegisterUser = evt => {
 
 function addUserToFirestore(user) {
     const userRef = collection(db, 'users');
-    console.log(FullNameInput.value, "; ", EmailInput.value, ";")
     addDoc(userRef, {
         name: FullNameInput.value,
         email: EmailInput.value,
         registrationDate: new Date()
-    });
+    })
 }
 
 SignUpForm.addEventListener('submit', RegisterUser);
