@@ -2,6 +2,16 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebas
 import { getDatabase, set, ref } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-analytics.js";
+import {
+    addDoc,
+    collection,
+    deleteDoc,
+    doc,
+    getDoc,
+    getDocs,
+    getFirestore,
+    updateDoc,
+} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDZJTH0Znyi13etPM6Ag5M-lQ_WeqXOIsU",
@@ -28,14 +38,15 @@ document.getElementById('signUp').addEventListener('click', function(event) {
         createUserWithEmailAndPassword(auth, EmailInput.value, PasswordInput.value)
             .then((userCredential) => {
                 const user = userCredential.user;
-                set(ref(db, 'users/' + user.uid), {
+                const userRef = collection(db, "users")
+                addDoc(userRef, {
                     name: FullNameInput.value,
                     email: EmailInput.value,
                     registrationDate: new Date()
-                });
+                })
                 console.log(user);
 
-                window.location.href = "https://noah-pesendorfer.github.io/Scrumflow/";
+                window.location.href = "https://noah-pesendorfer.github.io/Scrumflow-Home/";
 
 
             })
