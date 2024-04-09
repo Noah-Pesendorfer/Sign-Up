@@ -49,6 +49,8 @@ function registerUser() {
 
             console.log(FullNameInput.value, "; ", EmailInput.value, ";")
 
+            window.location.href = "http://noah-pesendorfer.github.io/Scrumflow-Projects/";
+
         })
         .catch((error) => {
             const errorCode = error.code;
