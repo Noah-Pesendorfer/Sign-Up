@@ -38,22 +38,19 @@ let FullNameInput = document.getElementById('name');
 let user;
 function registerUser() {
 
-    alert("Email: ", EmailInput.value);
 
     createUserWithEmailAndPassword(auth, EmailInput.value, PasswordInput.value)      // Erstellen eines Benutzers mit E-Mail und Passwort über das Firebase-Authentifizierungsmodul
         .then((userCredential)=>{
             user = userCredential.user;
             addUserToFirestore(user);
 
+            window.location.href = "http://noah-pesendorfer.github.io/Scrumflow-Projects/";
             console.log("Created user: ", user)
 
             console.log(FullNameInput.value, "; ", EmailInput.value, ";")
-
-            window.location.href = "http://noah-pesendorfer.github.io/Scrumflow-Projects/";
-
         })
         .catch((error) => {
-            const errorCode = error.code;
+            /*const errorCode = error.code;
             const errorMessage = error.message;
 
             if (errorCode === "auth/email-already-in-use") {            // Wenn der User eine Email eingibt, die bereits in Verwendung ist, kommt die entsprechende Alert
@@ -62,7 +59,8 @@ function registerUser() {
                 alert("Password should be at least 6 characters long. Please choose a stronger password.");
             } else {
                 alert(errorMessage);
-            }
+            }*/
+            console.error(error);
         });
 }
 
@@ -75,4 +73,4 @@ function addUserToFirestore(user) {
     })
 }
 
-SignUpForm.addEventListener('click', registerUser());
+SignUpForm.addEventListener('submit', registerUser());
