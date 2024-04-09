@@ -53,10 +53,10 @@ document.getElementById('signUp').addEventListener('click', function(event) {
             .catch((error) => {
                 const errorMessage = error.message;
 
-                console.log(errorMessage);
+                alert(errorMessage);
             })
     }
     else{
-        alert("Password != confirm");
+        alert("Password and Confirm Password is not equal");
     }
 }) ;
