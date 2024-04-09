@@ -39,6 +39,8 @@ let user;
 let RegisterUser = evt => {
     evt.preventDefault();       // Verhindern des Standardverhaltens des Formulars
 
+    alert("Email: ", EmailInput.value);
+
     createUserWithEmailAndPassword(auth, EmailInput.value, PasswordInput.value)      // Erstellen eines Benutzers mit E-Mail und Passwort über das Firebase-Authentifizierungsmodul
         .then((userCredential)=>{
             user = userCredential.user;
