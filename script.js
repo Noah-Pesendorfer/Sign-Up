@@ -38,30 +38,32 @@ let FullNameInput = document.getElementById('name');
 let user;
 function registerUser() {
 
+    if(confirm("Email: ", EmailInput.value)) {
 
-    createUserWithEmailAndPassword(auth, EmailInput.value, PasswordInput.value)      // Erstellen eines Benutzers mit E-Mail und Passwort über das Firebase-Authentifizierungsmodul
-        .then((userCredential)=>{
-            user = userCredential.user;
-            addUserToFirestore(user);
+        createUserWithEmailAndPassword(auth, EmailInput.value, PasswordInput.value)      // Erstellen eines Benutzers mit E-Mail und Passwort über das Firebase-Authentifizierungsmodul
+            .then((userCredential) => {
+                user = userCredential.user;
+                addUserToFirestore(user);
 
-            window.location.href = "http://noah-pesendorfer.github.io/Scrumflow-Projects/";
-            console.log("Created user: ", user)
+                window.location.href = "http://noah-pesendorfer.github.io/Scrumflow-Projects/";
+                console.log("Created user: ", user)
 
-            console.log(FullNameInput.value, "; ", EmailInput.value, ";")
-        })
-        .catch((error) => {
-            /*const errorCode = error.code;
-            const errorMessage = error.message;
+                console.log(FullNameInput.value, "; ", EmailInput.value, ";")
+            })
+            .catch((error) => {
+                /*const errorCode = error.code;
+                const errorMessage = error.message;
 
-            if (errorCode === "auth/email-already-in-use") {            // Wenn der User eine Email eingibt, die bereits in Verwendung ist, kommt die entsprechende Alert
-                alert("This email address is already registered. Please use a different one.");
-            } else if (errorCode === "auth/weak-password") {            // Wenn der User ein Passwort eingibt, welches unter 6 characters ist, kommt die entsprechende Alert
-                alert("Password should be at least 6 characters long. Please choose a stronger password.");
-            } else {
-                alert(errorMessage);
-            }*/
-            console.error(error);
-        });
+                if (errorCode === "auth/email-already-in-use") {            // Wenn der User eine Email eingibt, die bereits in Verwendung ist, kommt die entsprechende Alert
+                    alert("This email address is already registered. Please use a different one.");
+                } else if (errorCode === "auth/weak-password") {            // Wenn der User ein Passwort eingibt, welches unter 6 characters ist, kommt die entsprechende Alert
+                    alert("Password should be at least 6 characters long. Please choose a stronger password.");
+                } else {
+                    alert(errorMessage);
+                }*/
+                console.error(error);
+            });
+    }
 }
 
 function addUserToFirestore(user) {
