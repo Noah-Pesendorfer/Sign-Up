@@ -57,7 +57,7 @@ let RegisterUser = evt => {
                 registrationDate: new Date()
             })
 
-            window.location.href = "https://noah-pesendorfer.github.io/Scrumflow-Projects/";
+            window.location.href = "https://noah-pesendorfer.github.io/Scrumflow-Home/";
         })
         .catch((error) => {
             const errorCode = error.code;
