@@ -2,16 +2,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebas
 import { getDatabase, set, ref } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-analytics.js";
-import {
-    addDoc,
-    collection,
-    deleteDoc,
-    doc,
-    getDoc,
-    getDocs,
-    getFirestore,
-    updateDoc,
-} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDZJTH0Znyi13etPM6Ag5M-lQ_WeqXOIsU",
@@ -28,28 +18,28 @@ const analytics = getAnalytics(app);
 const db = getDatabase();
 const auth = getAuth(app);
 
-let SignUpForm = document.getElementById('signUp');          // Selektion des HTML-Elements mit der Klasse 'SignUpForm'
+let SignUpForm = document.querySelector('.SignUpForm');          // Selektion des HTML-Elements mit der Klasse 'SignUpForm'
 
-let EmailInput = document.getElementById('email');
-let PasswordInput = document.getElementById('password');
-let confirmPassword = document.getElementById('confirmPassword');
-let FullNameInput = document.getElementById('name');
+let EmailInput = SignUpForm.querySelector('#emailInput');                   // Selektion der Eingabefelder innerhalb des Formulars
+let PasswordInput = SignUpForm.querySelector('#passwordInput');
+let FullNameInput = SignUpForm.querySelector('#fullNameInput');
 
-let user;
-function registerUser() {
-    /*
+let RegisterUser = evt => {
+    evt.preventDefault();       // Verhindern des Standardverhaltens des Formulars
+
     createUserWithEmailAndPassword(auth, EmailInput.value, PasswordInput.value)      // Erstellen eines Benutzers mit E-Mail und Passwort über das Firebase-Authentifizierungsmodul
-        .then((userCredential) => {
-            user = userCredential.user;
-            addUserToFirestore(user);
+        .then((userCredential)=>{
+            const user = userCredential.user;
+            set(ref(db, 'users/' + user.uid),{
+                firstname: FullNameInput.value,
+                email: EmailInput.value,
+                registrationDate: new Date()
+            });
 
-            window.location.href = "http://noah-pesendorfer.github.io/Scrumflow-Projects/";
-            console.log("Created user: ", user)
-
-            console.log(FullNameInput.value, "; ", EmailInput.value, ";")
+            window.location.href = "https://noah-pesendorfer.github.io/Scrumflow-Projects/";
         })
         .catch((error) => {
-            /*const errorCode = error.code;
+            const errorCode = error.code;
             const errorMessage = error.message;
 
             if (errorCode === "auth/email-already-in-use") {            // Wenn der User eine Email eingibt, die bereits in Verwendung ist, kommt die entsprechende Alert
@@ -59,18 +49,7 @@ function registerUser() {
             } else {
                 alert(errorMessage);
             }
-            console.error(error);
         });
-    */
 }
 
-function addUserToFirestore(user) {
-    const userRef = collection(db, 'users');
-    addDoc(userRef, {
-        name: FullNameInput.value,
-        email: EmailInput.value,
-        registrationDate: new Date()
-    })
-}
-
-SignUpForm.addEventListener('submit', () => registerUser());
+SignUpForm.addEventListener('submit', RegisterUser);
