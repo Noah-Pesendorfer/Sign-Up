@@ -2,6 +2,17 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebas
 import { getDatabase, set, ref } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-analytics.js";
+import {
+    addDoc,
+    collection,
+    deleteDoc,
+    doc,
+    getDoc,
+    getDocs,
+    getFirestore,
+    updateDoc,
+} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyDZJTH0Znyi13etPM6Ag5M-lQ_WeqXOIsU",
@@ -16,6 +27,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getDatabase();
+const firebaseDb = getFirestore(app)
 const auth = getAuth(app);
 
 let SignUpForm = document.querySelector('.SignUpForm');          // Selektion des HTML-Elements mit der Klasse 'SignUpForm'
@@ -35,6 +47,13 @@ let RegisterUser = evt => {
                 email: EmailInput.value,
                 registrationDate: new Date()
             });
+
+            const usersRef = collection(firebaseDb, "users");
+            addDoc(usersRef, {
+                firstname: FullNameInput.value,
+                email: EmailInput.value,
+                registrationDate: new Date()
+            })
 
             window.location.href = "https://noah-pesendorfer.github.io/Scrumflow-Projects/";
         })
