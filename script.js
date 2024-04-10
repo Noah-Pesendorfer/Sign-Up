@@ -48,8 +48,10 @@ let RegisterUser = evt => {
                 registrationDate: new Date()
             });
 
-            const usersRef = collection(firebaseDb, "users");
-            addDoc(usersRef, {
+
+
+            const usersRef = doc(firebaseDb, "users", user.uid);
+            updateDoc(usersRef, {
                 firstname: FullNameInput.value,
                 email: EmailInput.value,
                 registrationDate: new Date()
